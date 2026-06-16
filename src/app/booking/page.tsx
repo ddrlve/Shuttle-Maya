@@ -6,26 +6,10 @@ import { ArrowLeftRight, Armchair, Bus, Calendar, Check, Clock } from "lucide-re
 import { CampusMap } from "@/components/campus-map";
 import { useBooking, campusName } from "@/lib/booking-context";
 import { CAMPUSES, SCHEDULES, SEAT_ROWS } from "@/lib/data";
+import { formatDisplayDate, normalizeDateInput } from "@/lib/date";
 import { cn } from "@/lib/utils";
 
-const DATE_OPTIONS = [
-  { value: "2026-06-16", label: "Tue, 16 Jun" },
-  { value: "2026-06-17", label: "Wed, 17 Jun" },
-  { value: "2026-06-18", label: "Thu, 18 Jun" },
-];
-
-function formatDateLabel(value: string) {
-  const dateValue = new Date(`${value}T00:00:00`);
-  return dateValue.toLocaleDateString("en-GB", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-  });
-}
-
-function dateInputValue(label: string) {
-  return DATE_OPTIONS.find((item) => item.label === label)?.value ?? "2026-06-16";
-}
+const DATE_OPTIONS = ["2026-06-16", "2026-06-17", "2026-06-18"];
 
 export default function BookingPage() {
   const router = useRouter();
@@ -43,6 +27,8 @@ export default function BookingPage() {
     swap,
   } = useBooking();
   const [step, setStep] = useState(1);
+  const selectedDate = normalizeDateInput(date);
+  const displayDate = formatDisplayDate(date);
 
   const selectedRouteReady = origin !== destination;
   const canConfirm = selectedRouteReady && schedule && seat;
@@ -100,24 +86,24 @@ export default function BookingPage() {
               <span className="text-xs font-semibold uppercase text-muted-foreground">Departure date</span>
               <input
                 type="date"
-                value={dateInputValue(date)}
+                value={selectedDate}
                 min="2026-06-16"
-                onChange={(event) => setDate(formatDateLabel(event.target.value))}
+                onChange={(event) => setDate(event.target.value)}
                 className="mt-1 h-12 w-full rounded-lg border border-border bg-white px-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20"
               />
             </label>
             <div className="flex gap-2 overflow-x-auto no-scrollbar">
             {DATE_OPTIONS.map((item) => (
               <button
-                key={item.value}
+                key={item}
                 type="button"
-                onClick={() => setDate(item.label)}
+                onClick={() => setDate(item)}
                 className={cn(
                   "min-h-10 shrink-0 rounded-lg px-3 text-sm font-semibold",
-                  date === item.label ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
+                  selectedDate === item ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
                 )}
               >
-                {item.label}
+                {formatDisplayDate(item)}
               </button>
             ))}
             </div>
@@ -188,7 +174,7 @@ export default function BookingPage() {
             </div>
           </div>
           <dl className="mt-4 grid gap-3 text-sm">
-            <SummaryRow icon={Calendar} label="Date" value={date} />
+            <SummaryRow icon={Calendar} label="Date" value={displayDate} />
             <SummaryRow icon={Clock} label="Time" value={schedule?.time ?? "Choose a schedule"} />
             <SummaryRow icon={Armchair} label="Seat" value={seat ? `Seat ${seat}` : "Choose a seat"} />
             <SummaryRow icon={Bus} label="Bus" value={schedule?.busCode ?? "Pending"} />

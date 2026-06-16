@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Check, Home, Ticket as TicketIcon } from "lucide-react";
 import { DummyQr } from "@/components/dummy-qr";
 import { useBooking, campusName } from "@/lib/booking-context";
+import { formatDisplayDate } from "@/lib/date";
 import { saveTicket } from "@/lib/storage";
 import type { Ticket } from "@/lib/data";
 
@@ -21,7 +22,7 @@ export default function SuccessPage() {
       id: `${ticketId}-${seat}`,
       origin: campusName(origin),
       destination: campusName(destination),
-      date,
+      date: formatDisplayDate(date),
       time: schedule.time,
       seat,
       busCode: schedule.busCode,

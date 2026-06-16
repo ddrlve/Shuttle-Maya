@@ -24,7 +24,7 @@ type BookingContextValue = BookingState & {
 const DEFAULT_STATE: BookingState = {
   origin: CAMPUSES[0].code,
   destination: CAMPUSES[1].code,
-  date: "Sat, 13th May",
+  date: "2026-06-16",
   schedule: null,
   seat: null,
 };

@@ -4,10 +4,11 @@ import { useSyncExternalStore } from "react";
 import { STORAGE_KEYS, TICKETS, type CommunityRequest, type Ticket } from "@/lib/data";
 
 const STORAGE_EVENT = "shuttle-maya-storage";
+const EMPTY_COMMUNITY_REQUESTS: CommunityRequest[] = [];
 let ticketCacheRaw: string | null = null;
 let ticketCacheValue: Ticket[] = TICKETS;
 let communityCacheRaw: string | null = null;
-let communityCacheValue: CommunityRequest[] = [];
+let communityCacheValue: CommunityRequest[] = EMPTY_COMMUNITY_REQUESTS;
 
 function emitStorageChange() {
   window.dispatchEvent(new Event(STORAGE_EVENT));
@@ -37,16 +38,16 @@ function readTicketsSnapshot(): Ticket[] {
 }
 
 function readCommunitySnapshot(): CommunityRequest[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return EMPTY_COMMUNITY_REQUESTS;
   const stored = window.localStorage.getItem(STORAGE_KEYS.communityRequests);
-  if (!stored) return [];
+  if (!stored) return EMPTY_COMMUNITY_REQUESTS;
   if (stored === communityCacheRaw) return communityCacheValue;
   try {
     communityCacheValue = JSON.parse(stored) as CommunityRequest[];
     communityCacheRaw = stored;
     return communityCacheValue;
   } catch {
-    return [];
+    return EMPTY_COMMUNITY_REQUESTS;
   }
 }
 
@@ -71,13 +72,13 @@ export function saveTicket(ticket: Ticket) {
 }
 
 export function loadCommunityRequests(): CommunityRequest[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return EMPTY_COMMUNITY_REQUESTS;
   const stored = window.localStorage.getItem(STORAGE_KEYS.communityRequests);
-  if (!stored) return [];
+  if (!stored) return EMPTY_COMMUNITY_REQUESTS;
   try {
     return JSON.parse(stored) as CommunityRequest[];
   } catch {
-    return [];
+    return EMPTY_COMMUNITY_REQUESTS;
   }
 }
 
@@ -95,5 +96,9 @@ export function useStoredTickets() {
 }
 
 export function useCommunityRequests() {
-  return useSyncExternalStore(subscribeStorage, readCommunitySnapshot, () => []);
+  return useSyncExternalStore(
+    subscribeStorage,
+    readCommunitySnapshot,
+    () => EMPTY_COMMUNITY_REQUESTS,
+  );
 }

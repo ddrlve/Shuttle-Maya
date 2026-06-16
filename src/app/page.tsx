@@ -8,22 +8,8 @@ import { CampusMap } from "@/components/campus-map";
 import { TicketCard } from "@/components/ticket-card";
 import { useBooking, campusName } from "@/lib/booking-context";
 import { CURRENT_USER, SCHEDULES } from "@/lib/data";
+import { normalizeDateInput } from "@/lib/date";
 import { useStoredTickets } from "@/lib/storage";
-
-function formatDateLabel(value: string) {
-  const dateValue = new Date(`${value}T00:00:00`);
-  return dateValue.toLocaleDateString("en-GB", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-  });
-}
-
-function dateInputValue(label: string) {
-  if (label.includes("17 Jun")) return "2026-06-17";
-  if (label.includes("18 Jun")) return "2026-06-18";
-  return "2026-06-16";
-}
 
 export default function HomePage() {
   const { origin, destination, date, setDate, swap } = useBooking();
@@ -102,9 +88,9 @@ export default function HomePage() {
               <span className="text-xs font-semibold opacity-80">Departure date</span>
               <input
                 type="date"
-                value={dateInputValue(date)}
+                value={normalizeDateInput(date)}
                 min="2026-06-16"
-                onChange={(event) => setDate(formatDateLabel(event.target.value))}
+                onChange={(event) => setDate(event.target.value)}
                 className="mt-1 h-11 w-full rounded-lg border border-white/20 bg-white px-3 text-sm font-bold text-foreground outline-none focus:ring-2 focus:ring-white/40"
               />
             </label>
