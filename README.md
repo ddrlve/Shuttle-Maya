@@ -1,6 +1,6 @@
 # Shuttle Maya
 
-Shuttle Maya is a responsive shuttle booking MVP for BINUS Bandung Accommodation Shuttle from BINUS Paskal <-> Dago Campus. It uses the Next.js App Router, TypeScript, Tailwind CSS, shadcn/ui-style primitives, lucide-react icons, dummy data, React state, and `localStorage`.
+Shuttle Maya is a responsive shuttle booking MVP for BINUS Bandung Accommodation Shuttle BINUS Paskal <-> Dago Campus. It uses the Next.js App Router, TypeScript, Tailwind CSS, shadcn/ui-style primitives, lucide-react icons, dummy data, React state, and `localStorage`.
 
 ## Routes
 
