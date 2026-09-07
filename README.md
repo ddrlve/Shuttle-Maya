@@ -51,16 +51,6 @@ npm run lint
 npm run build
 ```
 
-## Deploy to Vercel
-
-1. Push the repository to GitHub.
-2. Import the project in Vercel.
-3. Use the default Next.js settings.
-4. Build command: `npm run build`
-5. Output directory: leave default for Next.js.
-
-Do not commit `node_modules`, `.next`, `.env`, `.env.local`, or `.vercel`.
-
 ## Current Limitations
 
 - No backend or database yet.
