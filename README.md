@@ -12,7 +12,7 @@ Shuttle Maya is a responsive shuttle booking MVP for BINUS Bandung Accommodation
 - `/booking` booking flow
 - `/tickets` active and history tickets
 - `/community` community shuttle request
-- `/scan` fake QR scanner
+- `/scan` it's fake QR scanner
 - `/profile` profile and settings placeholders
 - `/success` booking success ticket
 
