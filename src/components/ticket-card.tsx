@@ -1,8 +1,24 @@
-import { Calendar, Armchair, Bus } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Calendar, Armchair, Bus, XCircle } from "lucide-react";
 import { StatusBadge } from "@/components/status-badge";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { updateTicketStatus } from "@/lib/storage";
 import type { Ticket } from "@/lib/data";
 
 export function TicketCard({ ticket }: { ticket: Ticket }) {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="w-full overflow-hidden rounded-xl border border-border bg-card">
       <div className="grid grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-center gap-3 p-3">
@@ -42,6 +58,44 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
         </span>
         <StatusBadge status={ticket.status} />
       </div>
+
+      {ticket.status === "active" && (
+        <div className="border-t border-border p-3">
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger
+              render={
+                <Button variant="destructive" className="w-full">
+                  <XCircle />
+                  Cancel ticket
+                </Button>
+              }
+            />
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Cancel this ticket?</DialogTitle>
+                <DialogDescription>
+                  {ticket.origin} to {ticket.destination} on {ticket.date} at {ticket.time}. This
+                  can&apos;t be undone.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setOpen(false)}>
+                  Keep ticket
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => {
+                    updateTicketStatus(ticket.id, "cancelled");
+                    setOpen(false);
+                  }}
+                >
+                  Yes, cancel
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
     </div>
   );
 }

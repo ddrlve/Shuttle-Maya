@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { STORAGE_KEYS, TICKETS, type CommunityRequest, type Ticket } from "@/lib/data";
+import { STORAGE_KEYS, TICKETS, type CommunityRequest, type Ticket, type TicketStatus } from "@/lib/data";
 
 const STORAGE_EVENT = "shuttle-maya-storage";
 const EMPTY_COMMUNITY_REQUESTS: CommunityRequest[] = [];
@@ -68,6 +68,13 @@ export function loadTickets(): Ticket[] {
 export function saveTicket(ticket: Ticket) {
   const tickets = loadTickets();
   window.localStorage.setItem(STORAGE_KEYS.tickets, JSON.stringify([ticket, ...tickets]));
+  emitStorageChange();
+}
+
+export function updateTicketStatus(id: string, status: TicketStatus) {
+  const tickets = loadTickets();
+  const updated = tickets.map((ticket) => (ticket.id === id ? { ...ticket, status } : ticket));
+  window.localStorage.setItem(STORAGE_KEYS.tickets, JSON.stringify(updated));
   emitStorageChange();
 }
 
