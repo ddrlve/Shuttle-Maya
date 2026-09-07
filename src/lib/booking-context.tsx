@@ -59,5 +59,5 @@ export function useBooking() {
 }
 
 export function campusName(code: string) {
-  return CAMPUSES.find((c) => c.code === code)?.name ?? code;
+  return CAMPUSES.find((c) => c.code === code)?.shortName ?? code;
 }

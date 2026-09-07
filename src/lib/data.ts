@@ -4,6 +4,7 @@
 export type Campus = {
   code: string;
   name: string;
+  shortName: string;
   address: string;
   lat: number;
   lng: number;
@@ -11,18 +12,22 @@ export type Campus = {
 
 export const CAMPUSES: Campus[] = [
   {
-    code: "dago",
-    name: "Dago",
-    address: "BINUS @ Bandung Dago",
-    lat: -6.8899,
-    lng: 107.6138,
+    code: "paskal",
+    name: "BINUS @Bandung - Paskal Campus",
+    shortName: "Paskal",
+    address:
+      "Jl. Pasir Kaliki No.25-27, Paskal Hyper Square, Ciroyom, Andir, Kota Bandung, Jawa Barat 40181",
+    lat: -6.914744,
+    lng: 107.596315,
   },
   {
-    code: "paskal",
-    name: "Paskal",
-    address: "BINUS @ Bandung Paskal",
-    lat: -6.9152,
-    lng: 107.5946,
+    code: "dago",
+    name: "BINUS @Bandung - Dago Campus",
+    shortName: "Dago",
+    address:
+      "Jl. Sentra Dago Pakar Raya Komplek Dago Pakar Blok F-2, Mekarsaluyu, Cimenyan, Kabupaten Bandung, Jawa Barat 40191",
+    lat: -6.8686,
+    lng: 107.63185,
   },
 ];
 
